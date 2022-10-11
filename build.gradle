@@ -1,0 +1,27 @@
+plugins {
+    id "org.springframework.boot" version "${spring_boot_version}"
+    id "io.spring.dependency-management" version "${spring_dependency_managment_version}"
+    id "java"
+    id "war"
+}
+
+apply plugin: "io.spring.dependency-management"
+
+group "com.epam.microservices"
+version "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
+}
+
+test {
+    useJUnitPlatform()
+}
