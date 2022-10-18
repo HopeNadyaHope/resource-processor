@@ -17,6 +17,12 @@ repositories {
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-amqp"
+    implementation "org.springframework.retry:spring-retry:${spring_retry_version}"
+    implementation "org.springframework:spring-aspects:${spring_aspects_version}"
+    implementation "org.json:json:${json_version}"
+    implementation "org.apache.tika:tika-core:${tika_version}"
+    implementation "org.apache.tika:tika-parsers:${tika_version}"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
