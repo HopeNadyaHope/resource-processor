@@ -18,6 +18,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-amqp"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eureka_version}"
     implementation "org.springframework.retry:spring-retry:${spring_retry_version}"
     implementation "org.springframework:spring-aspects:${spring_aspects_version}"
     implementation "org.json:json:${json_version}"

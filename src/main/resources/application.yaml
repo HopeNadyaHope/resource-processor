@@ -5,5 +5,8 @@ spring:
     username: guest
     password: guest
 
+  application:
+    name: resource-processor
+
 server:
   port: 8008
