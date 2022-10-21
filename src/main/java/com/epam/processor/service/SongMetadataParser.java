@@ -1,13 +1,12 @@
 package com.epam.processor.service;
 
-import com.epam.processor.constant.SongConstant;
+import com.epam.processor.model.SongModel;
 import com.epam.processor.service.exception.UnableToParseMetadataException;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -28,9 +27,9 @@ public class SongMetadataParser {
     private static final Pattern YEAR_PATTERN = Pattern.compile("(\\d{4})");
     private final Logger logger = LoggerFactory.getLogger(SongMetadataParser.class);
 
-    public JSONObject parseSongMetadata(String resourceId, byte[] resourceBytes) {
+    public SongModel parseSongMetadata(String resourceId, byte[] resourceBytes) {
         Metadata songMetadata = getSongMetadata(resourceBytes);
-        return createJson(resourceId, songMetadata);
+        return createSongModel(resourceId, songMetadata);
     }
 
     private Metadata getSongMetadata(byte[] resourceBytes) {
@@ -54,20 +53,23 @@ public class SongMetadataParser {
         return metadata;
     }
 
-    private JSONObject createJson(String resourceId, Metadata metadata) {
-        JSONObject songJsonModel = new JSONObject();
-        songJsonModel.put(SongConstant.NAME, metadata.get(TITLE));
-        songJsonModel.put(SongConstant.ARTIST, metadata.get(ARTIST));
-        songJsonModel.put(SongConstant.ALBUM, metadata.get(ALBUM));
-        songJsonModel.put(SongConstant.LENGTH, metadata.get(DURATION));
-        songJsonModel.put(SongConstant.RESOURCE_ID, resourceId);
-        songJsonModel.put(SongConstant.YEAR, getYear(metadata.get(RELEASE_DATE)));
-        return songJsonModel;
+    private SongModel createSongModel(String resourceId, Metadata metadata) {
+        SongModel songModel = new SongModel();
+        songModel.setName(metadata.get(TITLE));
+        songModel.setArtist(metadata.get(ARTIST));
+        songModel.setAlbum(metadata.get(ALBUM));
+        songModel.setLength(metadata.get(DURATION));
+        songModel.setResourceId(Integer.parseInt(resourceId));
+        songModel.setYear(getYear(metadata.get(RELEASE_DATE)));
+        return songModel;
     }
 
-    private String getYear(String releaseDate) {
+    private int getYear(String releaseDate) {
         Matcher matcher = YEAR_PATTERN.matcher(releaseDate);
-        return matcher.group();
+        if (!matcher.find()) {
+            throw new UnableToParseMetadataException();
+        }
+        return Integer.parseInt(matcher.group());
     }
 }
 

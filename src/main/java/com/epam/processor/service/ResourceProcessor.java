@@ -1,21 +1,20 @@
 package com.epam.processor.service;
 
-import org.json.JSONObject;
+import com.epam.processor.client.ApiGatewayClient;
+import com.epam.processor.model.SongModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ResourceProcessor {
     @Autowired
-    private ResourceServiceClient resourceServiceClient;
-    @Autowired
     private SongMetadataParser songMetadataParser;
     @Autowired
-    private SongServiceClient songServiceClient;
+    private ApiGatewayClient apiGatewayClient;
 
     public void process(String resourceId) {
-        byte[] resourceBytes = resourceServiceClient.getResourceBytes(resourceId);
-        JSONObject songMetadataJsonModel = songMetadataParser.parseSongMetadata(resourceId, resourceBytes);
-        songServiceClient.saveSong(resourceId, songMetadataJsonModel);
+        byte[] resourceBytes = apiGatewayClient.getResource(Integer.parseInt(resourceId)).getBody();
+        SongModel songModel = songMetadataParser.parseSongMetadata(resourceId, resourceBytes);
+        apiGatewayClient.createSong(songModel);
     }
 }
