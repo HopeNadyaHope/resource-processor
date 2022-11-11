@@ -12,9 +12,10 @@ public class ResourceProcessor {
     @Autowired
     private ApiGatewayClient apiGatewayClient;
 
-    public void process(String resourceId) {
-        byte[] resourceBytes = apiGatewayClient.getResource(Integer.parseInt(resourceId)).getBody();
-        SongModel songModel = songMetadataParser.parseSongMetadata(resourceId, resourceBytes);
+    public void process(String uploadedResourceId) {
+        int id = Integer.parseInt(uploadedResourceId);
+        byte[] resourceBytes = apiGatewayClient.getResource(id).getBody();
+        SongModel songModel = songMetadataParser.parseSongMetadata(id, resourceBytes);
         apiGatewayClient.createSong(songModel);
     }
 }

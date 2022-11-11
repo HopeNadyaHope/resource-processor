@@ -27,7 +27,7 @@ public class SongMetadataParser {
     private static final Pattern YEAR_PATTERN = Pattern.compile("(\\d{4})");
     private final Logger logger = LoggerFactory.getLogger(SongMetadataParser.class);
 
-    public SongModel parseSongMetadata(String resourceId, byte[] resourceBytes) {
+    public SongModel parseSongMetadata(int resourceId, byte[] resourceBytes) {
         Metadata songMetadata = getSongMetadata(resourceBytes);
         return createSongModel(resourceId, songMetadata);
     }
@@ -53,13 +53,13 @@ public class SongMetadataParser {
         return metadata;
     }
 
-    private SongModel createSongModel(String resourceId, Metadata metadata) {
+    private SongModel createSongModel(int resourceId, Metadata metadata) {
         SongModel songModel = new SongModel();
         songModel.setName(metadata.get(TITLE));
         songModel.setArtist(metadata.get(ARTIST));
         songModel.setAlbum(metadata.get(ALBUM));
         songModel.setLength(metadata.get(DURATION));
-        songModel.setResourceId(Integer.parseInt(resourceId));
+        songModel.setResourceId(resourceId);
         songModel.setYear(getYear(metadata.get(RELEASE_DATE)));
         return songModel;
     }

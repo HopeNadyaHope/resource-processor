@@ -26,8 +26,10 @@ dependencies {
     implementation "org.apache.tika:tika-core:${tika_version}"
     implementation "org.apache.tika:tika-parsers:${tika_version}"
 
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
+    testImplementation "org.mockito:mockito-core:${mockito_version}"
 }
 
 test {
