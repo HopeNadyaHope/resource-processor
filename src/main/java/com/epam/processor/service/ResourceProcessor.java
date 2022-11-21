@@ -17,5 +17,6 @@ public class ResourceProcessor {
         byte[] resourceBytes = apiGatewayClient.getResource(id).getBody();
         SongModel songModel = songMetadataParser.parseSongMetadata(id, resourceBytes);
         apiGatewayClient.createSong(songModel);
+        apiGatewayClient.permanentResource(id);
     }
 }
