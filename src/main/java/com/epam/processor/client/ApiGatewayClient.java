@@ -15,6 +15,9 @@ public interface ApiGatewayClient {
     @GetMapping(value = "/resources/{id}")
     ResponseEntity<byte[]> getResource(@PathVariable(name = "id") Integer id);
 
+    @GetMapping(value = "resources/permanent/{id}")
+    void permanentResource(@PathVariable(name = "id") Integer id);
+
     @PostMapping(value = "/songs", consumes = "application/json")
     Map<String, Integer> createSong(SongModel songModel);
 }
